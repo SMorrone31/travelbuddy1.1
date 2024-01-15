@@ -1,0 +1,115 @@
+.header1 {
+    border: none;
+    position: absolute;
+    top: 5%;
+    width: 80%;
+    background-color: transparent;
+    z-index: 2;
+    border-radius: 3rem;
+    padding-right: 4;
+    margin-left: 7px;
+
+    .headerFlex {
+        display: grid;
+        border: none;
+
+        .headerAutocomplete {
+            flex: 1;
+            position: relative;
+        }
+
+        .autocomplete {
+            width: 50%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: flex;
+            border-radius: 2rem;
+            background-color: white;
+            align-items: center;
+            transition: background-color 0.3s ease;
+
+            &:hover,
+            &:focus {
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+
+            &::placeholder {
+                color: #4a5568;
+            }
+
+            .custom-input {
+                width: 100%;
+                padding: 10px;
+                font-size: 12px;
+                background-color: white;
+                color: #4a5568;
+                border: none;
+                outline: none;
+                border-radius: 2rem;
+                transition: background-color 0.3s ease;
+
+                &:hover,
+                &:focus {
+                    background-color: rgba(255, 255, 255, 0.8);
+                }
+
+                &::placeholder {
+                    color: #4a5568;
+                }
+
+
+            }
+
+            .search-icon {
+                margin-left: 10px;
+                pointer-events: none;
+            }
+        }
+
+
+        .buttonContainer {
+            display: flex;
+            flex-direction: center;
+            margin-top: 5px;
+            flex-wrap: wrap;
+
+            .buttonRatings {
+                background: rgba(255, 255, 255, 0.9);
+                color: black;
+                border-radius: 1rem;
+                padding: 0;
+                margin-right: 10px;
+                font-size: 12px;
+                border: 1px solid lightgray;
+                width: 90px;
+                height: 30px;
+
+                &:hover {
+                    background-color: lightblue;
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+
+    }
+
+}
+
+@media screen and (max-width: 350px) {
+    .header1 {
+        width: 50%;
+
+        .headerFlex {
+            .headerAutocomplete {
+                .buttonRatings {
+                    font-size: 8px;
+                    width: 70px;
+                    height: 10px;
+                }
+            }
+        }
+    }
+
+}

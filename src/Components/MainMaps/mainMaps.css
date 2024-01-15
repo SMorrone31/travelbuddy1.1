@@ -1,0 +1,29 @@
+.mainMap {
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100%;
+  position: relative;
+}
+.mainMap .offline-message {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  width: 100%;
+  text-align: center;
+  background-color: #ffdede;
+  color: #d8000c;
+  font-size: 1.5rem;
+  padding: 20px;
+  z-index: 999;
+}
+@media (max-width: 600px) {
+  .mainMap .offline-message {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}/*# sourceMappingURL=mainMaps.css.map */

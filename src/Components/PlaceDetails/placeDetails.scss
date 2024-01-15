@@ -1,0 +1,183 @@
+.placeDetails {
+    color: black;
+    background: white;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    display: grid;
+    align-items: center;
+    margin-top: 10px;
+  
+    .imageContainer {
+      display: flex;
+      width: 100%;
+      flex: 1;
+  
+      .image {
+        object-fit: cover;
+        height: 120px;
+        width: 100%;
+        border-radius: 12px;
+        align-items: center;
+      }
+    }
+  
+    .singleCard {
+      display: flex;
+      width: 100%;
+      flex: 1;
+  
+  
+      .card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+  
+        .name {
+          font-size: 1rem;
+          font-weight: 500;
+          max-width: 100%;
+          flex-wrap: wrap;
+          cursor: pointer;
+        }
+  
+        .price {
+          font-size: 1rem;
+          font-weight: 500;
+          max-width: 100%;
+        }
+  
+        .rating {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+  
+          .reviews {
+            font-size: 11px;
+            font-weight: 500;
+            color: gray;
+          }
+  
+          .price-level {
+            font-size: 11px;
+            font-weight: 500;
+            color: gray;
+          }
+        }
+  
+        .ranking {
+          font-size: 11px;
+          font-weight: 500;
+          color: gray;
+        }
+  
+        .open-now-text {
+          font-size: 11px;
+          font-weight: 500;
+        }
+  
+        .open-now-text-green {
+          color: green;
+        }
+  
+        .open-now-text-red {
+          color: red;
+        }
+  
+        .open-now-text-yellow {
+          color: rgb(246, 203, 14);
+        }
+  
+        .dietary {
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+  
+          .dietaryNames {
+            color-scheme: red;
+            cursor: pointer;
+            font-size: 10px;
+            margin: 0.25rem;
+          }
+        }
+  
+        .location {
+          align-items: center;
+          width: 100%;
+          padding: 1px;
+          margin-bottom: 2px;
+          flex-wrap: wrap;
+  
+          .iconLocation {
+            font-size: 15px;
+            color: rgb(211, 36, 36);
+            margin-top: 10px;
+          }
+  
+          .text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: small;
+            font-weight: 500;
+            color: gray;
+            margin-left: 1rem;
+            flex-wrap: wrap;
+            margin-top: -15px;
+          }
+        }
+      }
+    }
+  
+  
+  }
+  
+  @media (max-width: 768px) {
+    .placeDetails {
+      flex-direction: column;
+  
+      .singleCard {
+        flex-direction: column;
+  
+        .image {
+          width: 100%;
+          height: auto;
+          margin-bottom: 1rem;
+        }
+  
+        .card {
+          padding: 0;
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .placeDetails {
+      padding: 0.5rem;
+    }
+  
+    .singleCard {
+      .card {
+        .name {
+          font-size: 5px;
+        }
+  
+        .price {
+          font-size: 12px;
+        }
+  
+        .rating {
+          font-size: 10px;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-top: 0.2rem;
+        }
+      }
+    }
+  }

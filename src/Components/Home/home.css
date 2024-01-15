@@ -1,0 +1,891 @@
+.home-fligth {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home-fligth .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgb(47, 106, 127);
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: hard-light;
+}
+.home-fligth video {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  pointer-events: none;
+}
+.home-fligth .homeContent {
+  width: 100%;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 6rem 1.5rem 3rem;
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+  color: hsl(0, 0%, 100%);
+  z-index: 100;
+}
+.home-fligth .homeContent .textDiv {
+  padding: 2rem 0;
+}
+.home-fligth .homeContent .textDiv .smallText {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.home-fligth .homeContent .textDiv .homeTitle {
+  position: relative;
+  font-size: 1.8rem;
+}
+.home-fligth .homeContent .cardDiv-Hotels {
+  display: none;
+}
+.home-fligth .homeContent .cardDiv-Packages {
+  display: none;
+}
+.home-fligth .homeContent .cardDiv-Airport {
+  position: relative;
+  padding: 2rem 1rem;
+  background: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  gap: 1rem;
+}
+.home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+  display: flex;
+  position: absolute;
+  bottom: -0.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.home-fligth .homeContent .cardDiv-Airport label {
+  display: block;
+  color: hsl(240, 4%, 36%);
+  padding-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-fligth .homeContent .cardDiv-Airport .label_total {
+  justify-content: space-between;
+  align-items: center;
+}
+.home-fligth .homeContent .cardDiv-Airport .label_total .total {
+  color: hsl(240, 4%, 36%);
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.home-fligth .homeContent .cardDiv-Airport .btn {
+  margin-top: 1rem;
+  margin: 0 2rem;
+  flex-direction: column;
+  align-items: center;
+  width: 340px;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+}
+.home-fligth .homeContent .cardDiv-Airport .btn:hover {
+  background: rgb(25, 147, 255);
+}
+.home-fligth .homeContent .cardDiv-Airport .btn a {
+  font-weight: 600;
+  color: hsl(0, 0%, 100%);
+}
+.home-fligth .homeContent .cardDiv-Airport .input {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3rem;
+}
+.home-fligth .homeContent .cardDiv-Airport .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-fligth .homeContent .cardDiv-Airport .input input::-moz-placeholder {
+  font-size: 13px;
+}
+.home-fligth .homeContent .cardDiv-Airport .input input::placeholder {
+  font-size: 13px;
+}
+.home-fligth .homeContent .cardDiv-Airport .input .icons {
+  font-size: 18px;
+  color: hsl(199, 100%, 33%) !important;
+  margin-left: 10px;
+}
+.home-fligth .homeContent .cardDiv-Airport .input .input[type=range] {
+  background: blue;
+}
+.home-fligth .homeContent .cardDiv-Airport .searchOptions {
+  position: absolute;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+  width: -moz-max-content;
+  width: max-content;
+  bottom: -0.7rem;
+  -moz-column-gap: 0.8rem;
+       column-gap: 0.8rem;
+  padding: 5px 1rem;
+  border-radius: 3rem;
+  left: 50%;
+  transform: translate(-50%);
+  justify-content: center;
+  cursor: pointer;
+}
+.home-fligth .homeContent .cardDiv-Airport .searchOptions:hover {
+  background: rgb(25, 147, 255);
+}
+.home-fligth .homeContent .cardDiv-Airport .searchOptions .icon {
+  font-size: 18px;
+}
+.home-fligth .homeContent .cardDiv-Airport .searchOptions span {
+  font-size: 13px;
+}
+.home-fligth .homeContent .cardDiv-Airport .searchOptions .filterPopup {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  width: 400px;
+}
+.home-fligth .homeContent .homeFooterIcons {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: -15px;
+}
+.home-fligth .homeContent .homeFooterIcons .icon {
+  font-size: 20px;
+  margin: 0 5px;
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.home-fligth .homeContent .homeFooterIcons .icon:hover {
+  color: hsl(199, 100%, 33%);
+}
+
+.home-Packages {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home-Packages .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgb(47, 106, 127);
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: hard-light;
+}
+.home-Packages video {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  pointer-events: none;
+}
+.home-Packages .homeContent {
+  width: 100%;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 8rem 1.5rem 3rem;
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+  color: hsl(0, 0%, 100%);
+  z-index: 100;
+}
+.home-Packages .homeContent .textDiv {
+  padding: 2rem 0;
+}
+.home-Packages .homeContent .textDiv .smallText {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.home-Packages .homeContent .textDiv .homeTitle {
+  position: relative;
+  font-size: 1.8rem;
+}
+.home-Packages .homeContent .cardDiv-Packages {
+  position: relative;
+  padding: 2rem 1rem;
+  background: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  gap: 1rem;
+}
+.home-Packages .homeContent .cardDiv-Packages .selectDiv {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  position: relative;
+  gap: 1rem;
+}
+.home-Packages .homeContent .cardDiv-Packages .selectDiv .custom-input {
+  width: 300px;
+  padding: 10px;
+  border: 4px solid #ccc;
+  border-radius: 5px;
+}
+.home-Packages .homeContent .cardDiv-Packages .selectDiv .custom-item {
+  color: blue;
+  font-weight: bold;
+  background-color: lightblue;
+}
+.home-Packages .homeContent .cardDiv-Packages label {
+  display: block;
+  color: hsl(240, 4%, 36%);
+  padding-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-Packages .homeContent .cardDiv-Packages .label_total {
+  justify-content: space-between;
+  align-items: center;
+}
+.home-Packages .homeContent .cardDiv-Packages .label_total .total {
+  color: hsl(240, 4%, 36%);
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.home-Packages .homeContent .cardDiv-Packages .btn {
+  margin-top: 1rem;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+}
+.home-Packages .homeContent .cardDiv-Packages .btn:hover {
+  background: rgb(25, 147, 255);
+}
+.home-Packages .homeContent .cardDiv-Packages .btn a {
+  font-weight: 600;
+  color: hsl(0, 0%, 100%);
+}
+.home-Packages .homeContent .cardDiv-Packages .input {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3rem;
+}
+.home-Packages .homeContent .cardDiv-Packages .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-Packages .homeContent .cardDiv-Packages .input input::-moz-placeholder {
+  font-size: 13px;
+}
+.home-Packages .homeContent .cardDiv-Packages .input input::placeholder {
+  font-size: 13px;
+}
+.home-Packages .homeContent .cardDiv-Packages .input .icons {
+  font-size: 18px;
+  color: hsl(199, 100%, 33%) !important;
+  margin-left: 10px;
+}
+.home-Packages .homeContent .cardDiv-Packages .input .input[type=range] {
+  background: blue;
+}
+.home-Packages .homeContent .cardDiv-Packages .searchOptions {
+  position: absolute;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+  width: -moz-max-content;
+  width: max-content;
+  bottom: -0.7rem;
+  -moz-column-gap: 0.8rem;
+       column-gap: 0.8rem;
+  padding: 5px 1rem;
+  border-radius: 3rem;
+  left: 50%;
+  transform: translate(-50%);
+  justify-content: center;
+  cursor: pointer;
+}
+.home-Packages .homeContent .cardDiv-Packages .searchOptions:hover {
+  background: rgb(25, 147, 255);
+}
+.home-Packages .homeContent .cardDiv-Packages .searchOptions .icon {
+  font-size: 18px;
+}
+.home-Packages .homeContent .cardDiv-Packages .searchOptions span {
+  font-size: 13px;
+}
+.home-Packages .homeContent .cardDiv-Packages .searchOptions .filterPopup {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  width: 400px;
+}
+.home-Packages .homeContent .cardDiv-Airport {
+  display: none;
+}
+.home-Packages .homeContent .cardDiv-Hotels {
+  display: none;
+}
+.home-Packages .homeContent .homeFooterIcons {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 70px;
+}
+.home-Packages .homeContent .homeFooterIcons .icon {
+  font-size: 20px;
+  margin: 0 5px;
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.home-Packages .homeContent .homeFooterIcons .icon:hover {
+  color: hsl(199, 100%, 33%);
+}
+
+.home-H {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home-H .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgb(47, 106, 127);
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: hard-light;
+}
+.home-H video {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  pointer-events: none;
+}
+.home-H .homeContent {
+  width: 100%;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 8rem 1.5rem 3rem;
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+  color: hsl(0, 0%, 100%);
+  z-index: 100;
+}
+.home-H .homeContent .textDiv {
+  padding: 2rem 0;
+}
+.home-H .homeContent .textDiv .smallText {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.home-H .homeContent .textDiv .homeTitle {
+  position: relative;
+  font-size: 1.8rem;
+}
+.home-H .homeContent .cardDiv-Hotels {
+  position: relative;
+  padding: 2rem 1rem;
+  background: hsl(0, 0%, 100%);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  gap: 1rem;
+}
+.home-H .homeContent .cardDiv-Hotels .input {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3rem;
+}
+.home-H .homeContent .cardDiv-Hotels .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-H .homeContent .cardDiv-Hotels .input input::-moz-placeholder {
+  font-size: 13px;
+}
+.home-H .homeContent .cardDiv-Hotels .input input::placeholder {
+  font-size: 13px;
+}
+.home-H .homeContent .cardDiv-Hotels .input .icon {
+  font-size: 18px;
+  color: hsl(199, 100%, 33%) !important;
+  margin-left: 10px;
+}
+.home-H .homeContent .cardDiv-Hotels .input .input[type=range] {
+  background: blue;
+}
+.home-H .homeContent .cardDiv-Hotels label {
+  display: block;
+  color: hsl(240, 4%, 36%);
+  padding-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-H .homeContent .cardDiv-Hotels .label_total {
+  justify-content: space-between;
+  align-items: center;
+}
+.home-H .homeContent .cardDiv-Hotels .label_total .total {
+  color: hsl(240, 4%, 36%);
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.home-H .homeContent .cardDiv-Hotels .btn {
+  margin-top: 1rem;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+}
+.home-H .homeContent .cardDiv-Hotels .btn:hover {
+  background: rgb(25, 147, 255);
+}
+.home-H .homeContent .cardDiv-Hotels .btn a {
+  font-weight: 600;
+  color: hsl(0, 0%, 100%);
+}
+.home-H .homeContent .cardDiv-Hotels .input {
+  height: 40px;
+  padding: 0 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3rem;
+}
+.home-H .homeContent .cardDiv-Hotels .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.home-H .homeContent .cardDiv-Hotels .input input::-moz-placeholder {
+  font-size: 13px;
+}
+.home-H .homeContent .cardDiv-Hotels .input input::placeholder {
+  font-size: 13px;
+}
+.home-H .homeContent .cardDiv-Hotels .input .icons {
+  font-size: 18px;
+  color: hsl(199, 100%, 33%) !important;
+  margin-left: 10px;
+}
+.home-H .homeContent .cardDiv-Hotels .input .input[type=range] {
+  background: blue;
+}
+.home-H .homeContent .cardDiv-Hotels .searchOptions {
+  position: absolute;
+  background: linear-gradient(to right, rgba(25, 147, 255, 0.5), rgba(25, 147, 255, 0.85));
+  width: -moz-max-content;
+  width: max-content;
+  bottom: -0.7rem;
+  -moz-column-gap: 0.8rem;
+       column-gap: 0.8rem;
+  padding: 5px 1rem;
+  border-radius: 3rem;
+  left: 50%;
+  transform: translate(-50%);
+  justify-content: center;
+  cursor: pointer;
+}
+.home-H .homeContent .cardDiv-Hotels .searchOptions:hover {
+  background: rgb(25, 147, 255);
+}
+.home-H .homeContent .cardDiv-Hotels .searchOptions .icon {
+  font-size: 18px;
+}
+.home-H .homeContent .cardDiv-Hotels .searchOptions span {
+  font-size: 13px;
+}
+.home-H .homeContent .cardDiv-Packages {
+  display: none;
+}
+.home-H .homeContent .cardDiv-Airport {
+  display: none;
+}
+.home-H .homeContent .homeFooterIcons {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 125px;
+}
+.home-H .homeContent .homeFooterIcons .icon {
+  font-size: 20px;
+  margin: 0 5px;
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.home-H .homeContent .homeFooterIcons .icon:hover {
+  color: hsl(199, 100%, 33%);
+}
+
+.home {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgb(47, 106, 127);
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: hard-light;
+}
+.home video {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  pointer-events: none;
+}
+.home .homeContent {
+  width: 100%;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 8rem 1.5rem 3rem;
+  display: flex;
+  row-gap: 3rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+  color: hsl(0, 0%, 100%);
+  z-index: 100;
+}
+.home .homeContent .textDiv {
+  padding: 2rem 0;
+}
+.home .homeContent .textDiv .smallText {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.home .homeContent .textDiv .homeTitle {
+  position: relative;
+  font-size: 1.8rem;
+}
+.home .homeContent .cardDiv-Hotels {
+  display: none;
+}
+.home .homeContent .cardDiv-Packages {
+  display: none;
+}
+.home .homeContent .cardDiv-Airport {
+  display: none;
+}
+.home .homeContent .homeFooterIcons {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 150px;
+}
+.home .homeContent .homeFooterIcons .icon {
+  font-size: 20px;
+  margin: 0 5px;
+  color: hsl(0, 0%, 100%);
+  font-weight: 600;
+}
+.home .homeContent .homeFooterIcons .icon:hover {
+  color: hsl(199, 100%, 33%);
+}
+
+@media screen and (min-width: 250px) {
+  .home {
+    height: 75vh;
+  }
+}
+@media screen and (min-width: 500px) {
+  .home {
+    height: 90vh;
+  }
+  .home .homeContent .textDiv .smallText {
+    font-size: 16px;
+  }
+  .home .homeContent .textDiv .homeTitle {
+    position: relative;
+    font-size: 2.3rem;
+    width: -moz-max-content;
+    width: max-content;
+  }
+}
+@media screen and (min-width: 660px) {
+  .home {
+    height: 95vh;
+  }
+}
+@media screen and (min-width: 940px) {
+  .home {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 1240px) {
+  .home {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 250px) {
+  .home-fligth {
+    height: 90vh;
+  }
+  .home-fligth .homeContent .textDiv .smallText {
+    font-size: 16px;
+  }
+  .home-fligth .homeContent .textDiv .homeTitle {
+    position: relative;
+    font-size: 2.3rem;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .home-fligth .homeContent .cardDiv-Airport {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+    display: flex;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn {
+    width: 100px;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn a {
+    font-weight: 600;
+    font-size: 10px;
+  }
+}
+@media screen and (min-width: 500px) {
+  .home-fligth {
+    height: 90vh;
+  }
+  .home-fligth .homeContent .textDiv .smallText {
+    font-size: 16px;
+  }
+  .home-fligth .homeContent .textDiv .homeTitle {
+    position: relative;
+    font-size: 2.3rem;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .home-fligth .homeContent .cardDiv-Airport {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+    display: flex;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn {
+    width: 160px;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn a {
+    font-weight: 600;
+  }
+}
+@media screen and (min-width: 660px) {
+  .home-fligth {
+    height: 95vh;
+  }
+  .home-fligth .homeContent .cardDiv-Airport {
+    padding: 2rem 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+    display: flex;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn {
+    width: 200px;
+  }
+}
+@media screen and (min-width: 940px) {
+  .home-fligth {
+    height: 100vh;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+    display: flex;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn {
+    width: 350px;
+  }
+}
+@media screen and (min-width: 1240px) {
+  .home-fligth {
+    height: 100vh;
+  }
+  .home-fligth .homeContent {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .home-fligth .homeContent .cardDiv-Airport {
+    padding: 2rem 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer {
+    display: flex;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .home-fligth .homeContent .cardDiv-Airport .tripTypeContainer .btn {
+    width: 400px;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .input {
+    margin-bottom: 1rem;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .searchOptions {
+    bottom: -1rem;
+    padding: 8px 1rem;
+  }
+  .home-fligth .homeContent .cardDiv-Airport .searchOptions span {
+    font-size: 17px;
+  }
+}
+@media screen and (min-width: 500px) {
+  .home-Packages {
+    height: 90vh;
+  }
+  .home-Packages .homeContent .textDiv .smallText {
+    font-size: 16px;
+  }
+  .home-Packages .homeContent .textDiv .homeTitle {
+    position: relative;
+    font-size: 2.3rem;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .home-Packages .homeContent .cardDiv-Packages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (min-width: 660px) {
+  .home-Packages {
+    height: 95vh;
+  }
+}
+@media screen and (min-width: 940px) {
+  .home-Packages {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 1240px) {
+  .home-Packages {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 500px) {
+  .home-H {
+    height: 90vh;
+  }
+  .home-H .homeContent .textDiv .smallText {
+    font-size: 16px;
+  }
+  .home-H .homeContent .textDiv .homeTitle {
+    position: relative;
+    font-size: 2.3rem;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  .home-H .homeContent .cardDiv-Hotels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (min-width: 660px) {
+  .home-H {
+    height: 95vh;
+  }
+  .home-H .homeContent .cardDiv-Hotels {
+    padding: 2rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 940px) {
+  .home-H {
+    height: 100vh;
+  }
+}
+@media screen and (min-width: 1240px) {
+  .home-H {
+    height: 100vh;
+  }
+  .home-H .homeContent {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .home-H .homeContent .cardDiv {
+    padding: 2rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .home-H .homeContent .cardDiv .input {
+    margin-bottom: 1rem;
+  }
+  .home-H .homeContent .cardDiv .searchOptions {
+    bottom: -1rem;
+    padding: 8px 1rem;
+  }
+  .home-H .homeContent .cardDiv .searchOptions span {
+    font-size: 17px;
+  }
+}/*# sourceMappingURL=home.css.map */

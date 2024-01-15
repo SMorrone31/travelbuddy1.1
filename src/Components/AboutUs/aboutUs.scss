@@ -1,0 +1,70 @@
+.about-page {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f5f5f5; // Sfondo leggero per la pagina, modifica secondo le tue preferenze
+
+
+    .image-container {
+        max-width: 300px;
+        /* Imposta la larghezza massima del contenitore dell'immagine */
+        margin: 0 auto;
+        /* Centra l'immagine nel contenitore */
+
+        .profile-image {
+            max-width: 100%;
+            /* Imposta la larghezza massima dell'immagine al 100% del suo contenitore */
+            height: auto;
+            /* Imposta l'altezza automaticamente in base alla larghezza per mantenere l'aspetto originale */
+        }
+    }
+
+
+    .mobile-layout {
+        order: 1;
+        /* Cambia l'ordine di visualizzazione in modo che il testo sia sopra la foto */
+    }
+
+    .ant-row {
+        margin-top: 20px;
+    }
+
+    .ant-col {
+        @media (max-width: 768px) {
+            margin-bottom: 20px;
+        }
+    }
+
+    .ant-card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Aggiunge un'ombra leggera alle card
+
+        .ant-card-meta-title {
+            font-size: 20px; // Dimensione del titolo della card
+            font-weight: bold;
+        }
+
+        .ant-card-meta-description {
+            font-size: 16px; // Dimensione della descrizione della card
+        }
+    }
+
+    .ant-typography {
+        color: #333; // Colore del testo, modifica secondo le tue preferenze
+
+        h2 {
+            font-size: 24px; // Dimensione del titolo
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        h3 {
+            font-size: 20px; // Dimensione dei sottotitoli
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 16px; // Dimensione del testo del paragrafo
+            line-height: 1.5;
+        }
+    }
+}

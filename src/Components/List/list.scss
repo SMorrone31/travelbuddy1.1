@@ -1,0 +1,62 @@
+.list {
+    flex-direction: column;
+    display: grid;
+    background: white;
+    width: 40%;
+    height: 71.9vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: hidden;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-top: 120px;
+    border-radius: 5px;
+
+    .listComponent {
+        flex: 1;
+        overflow: scroll;
+        flex-direction: column;
+        background: white;
+
+        .listComponentSkeleton {
+            border: 0.3px solid lightgray;
+            margin-left: 5px;
+            margin-top: 3px;
+            border-radius: 1rem;
+        }
+    }
+
+}
+
+.placeDetail {
+    flex-direction: column;
+    display: grid;
+    background: white;
+    width: 40%;
+    height: 71.9vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: scroll;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-top: 120px;
+    border-radius: 5px;
+
+    .card {
+        flex: 1;
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .placeDetail {
+        width: 45%;
+    }
+
+
+}
