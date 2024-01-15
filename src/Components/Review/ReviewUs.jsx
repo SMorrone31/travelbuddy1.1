@@ -8,6 +8,7 @@ import { Form, Input, Button, notification, Modal as AntModal } from 'antd'
 
 
 const ReviewUs = () => {
+    // Utilizzo del contesto di autenticazione per ottenere l'utente corrente
     const { user } = useAuth()
     const [reviews, setReviews] = useState([])
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -37,7 +38,7 @@ const ReviewUs = () => {
 
 
 
-
+    // funzione per mostrare le notifiche all'utente
     const openNotificationWithIcon = (type, message, description, placement) => {
         notification[type]({
             message,
@@ -46,90 +47,126 @@ const ReviewUs = () => {
         });
     };
 
+    // funzione per gestire l'invio di una nuova recensione
     const handleSubmit = async (values) => {
-
+        // Verifica se l'applicazione è offline.
         if (isOffline) {
             openNotificationWithIcon('error', 'No Internet Connection', 'You cannot submit a review while offline.', 'top');
             return;
         }
 
+        // Verifica se i campi "experience" e "review" sono vuoti.
         if (values.experience.trim() === "" || values.review.trim() === "") {
             openNotificationWithIcon('warning', 'Warning', 'All fields are required', 'top');
             return;
         }
 
         try {
+            // Crea un oggetto "reviewData" con i dati del review da inviare al database.
             const reviewData = {
-                name: userName,
-                experience: values.experience,
-                review: values.review,
-                image: imgUrl,
-                email: Email,
+                name: userName,            // Nome dell'utente.
+                experience: values.experience,  // Esperienza inserita dall'utente.
+                review: values.review,        // Recensione inserita dall'utente.
+                image: imgUrl,              // URL dell'immagine (se presente).
+                email: Email,               // Indirizzo email dell'utente.
             };
+
+            // Ottiene il riferimento alla collezione "reviews" nel database Firestore.
             const reviewsCollectionRef = collection(db, 'reviews');
+
+            // Aggiunge il documento con i dati della recensione alla collezione "reviews" e ottiene il riferimento al documento appena creato.
             const docRef = await addDoc(reviewsCollectionRef, reviewData);
 
+            // Aggiunge la recensione alla lista delle recensioni esistenti nell'app.
             setReviews(prevReviews => [...prevReviews, { ...reviewData, id: docRef.id }]);
+
+            // Mostra una notifica di successo.
             openNotificationWithIcon('success', 'Success', 'Review uploaded successfully', 'topRight');
+
+            // Reimposta i campi "experience" e "review" nel modulo del form.
             setFormData({
                 ...formData,
                 experience: "",
                 review: "",
             });
+
+            // Nasconde il modulo di invio recensione.
             setIsVisible(false);
+
+            // Imposta il flag "hasUserReviewed" su "true" per indicare che l'utente ha inviato una recensione.
             setHasUserReviewed(true);
         } catch (error) {
+            // Gestisce gli errori, ad esempio problemi di connessione al database.
             console.log(error);
+
+            // Mostra una notifica di errore.
             openNotificationWithIcon('error', 'Error', 'Ops, An issue occurred while submitting the review. Please try again', 'top');
         }
     }
 
+    // funzione per gestire l'invio della recensione modificata dall'utente
     const handleEditSubmit = async (values) => {
-
+        // Verifica se l'applicazione è offline
         if (isOffline) {
+            // Mostra un messaggio di errore se l'applicazione è offline e termina la funzione
             openNotificationWithIcon('error', 'No Internet Connection', 'You cannot edit a review while offline.', 'top');
             return;
         }
 
         try {
+            // Ottieni la recensione corrente dalla lista delle recensioni in base all'indice corrente
             const currentReview = reviews[currentIndex];
+
+            // Se la recensione corrente non esiste, lancia un errore
             if (!currentReview) {
                 throw new Error("Invalid review data or invalid currentIndex");
             }
 
-            const reviewsCollectionRef = collection(db, 'reviews')
+            // Ottenere un riferimento alla collezione "reviews" nel database Firestore
+            const reviewsCollectionRef = collection(db, 'reviews');
+
+            // Effettua una query per trovare il documento che corrisponde alla recensione corrente
             const querySnapshot = await getDocs(query(reviewsCollectionRef,
                 where("name", "==", currentReview.name),
                 where("review", "==", currentReview.review),
                 where("experience", "==", currentReview.experience),
-                where("email", "==", currentReview.email)))
+                where("email", "==", currentReview.email)
+            ));
 
-            let reviewDocId
+            let reviewDocId;
+
+            // Cicla attraverso il risultato della query per ottenere l'ID del documento corrispondente
             querySnapshot.forEach((doc) => {
-                reviewDocId = doc.id
-            })
+                reviewDocId = doc.id;
+            });
 
+            // Se non viene trovato un documento, mostra un messaggio di avviso e termina la funzione
             if (!reviewDocId) {
                 openNotificationWithIcon('warning', 'Warning', 'Review not found', 'top');
-                return
+                return;
             }
 
-            const reviewDocRef = doc(db, "reviews", reviewDocId)
+            // Ottieni un riferimento al documento della recensione da aggiornare
+            const reviewDocRef = doc(db, "reviews", reviewDocId);
 
+            // Definisci i dati della recensione aggiornati
             const updatedReviewData = {
                 experience: editFormData.experience,
                 review: editFormData.review
-            }
+            };
 
-            await updateDoc(reviewDocRef, values)
+            // Effettua l'aggiornamento del documento nel database Firestore
+            await updateDoc(reviewDocRef, values);
 
+            // Aggiorna la lista delle recensioni localmente con i nuovi dati
             setReviews(prevReviews => prevReviews.map(r =>
                 r.email === currentReview.email ? { ...r, ...values } : r
             ));
 
-            console.log(values)
+            // Visualizza una notifica di successo
             openNotificationWithIcon('success', 'Success', 'Review update successfully', 'topRight');
 
+            // Ripristina le variabili e lo stato per completare l'operazione di modifica
             setEditing(false);
             closeUpdateReview();
             setEditFormData({
@@ -137,34 +174,49 @@ const ReviewUs = () => {
                 review: "",
             });
         } catch (error) {
+            // Gestisci gli errori mostrando un messaggio di errore e registrando l'errore nella console
             console.log(error);
             openNotificationWithIcon('error', 'Error', 'Ops, An issue occurred while submitting the review. Please try again', 'top');
         }
     }
 
+    // Funzione per passare alla recensione successiva
     const nextPerson = () => {
+        // Aggiorna currentIndex incrementandolo di 1 e applicando un operatore modulo per garantire che rimanga nell'intervallo delle recensioni disponibili
         setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
     }
 
+    // Funzione per tornare alla recensione precedente
     const prevPerson = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length)
+        // Aggiorna currentIndex decrementandolo di 1 e applicando un operatore modulo per garantire che rimanga nell'intervallo delle recensioni disponibili
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
     }
 
+    // Funzione per visualizzare una recensione casuale
     const getRandomPerson = () => {
-        const randomIndex = Math.floor(Math.random() * reviews.length)
-        setCurrentIndex(randomIndex)
+        // Genera un indice casuale tra 0 e la lunghezza dell'array delle recensioni
+        const randomIndex = Math.floor(Math.random() * reviews.length);
+        // Imposta currentIndex sull'indice casuale generato
+        setCurrentIndex(randomIndex);
     }
 
+    // funzione per trovare la recensione dell'utente corrente
     const getCurrentReview = () => {
+        // Verifica se l'utente è autenticato
         if (user) {
-            const userReviewIndex = reviews.findIndex(review => review.email === user.email)
+            // Cerca l'indice della recensione dell'utente nell'array delle recensioni
+            const userReviewIndex = reviews.findIndex(review => review.email === user.email);
+
+            // Se l'indice della recensione dell'utente è stato trovato (diverso da -1), imposta currentIndex su quell'indice
             if (userReviewIndex !== -1) {
-                setCurrentIndex(userReviewIndex)
+                setCurrentIndex(userReviewIndex);
             } else {
-                openNotificationWithIcon('error', 'Error', 'You haven t submitted a review yet', 'top');
+                // Se l'utente non ha ancora inviato una recensione, mostra un messaggio di errore
+                openNotificationWithIcon('error', 'Error', 'You haven´t submitted a review yet', 'top');
             }
         }
     }
+
 
     const showReview = () => {
         setIsVisible(true)
@@ -186,13 +238,21 @@ const ReviewUs = () => {
         setIsVisible(false)
     }
 
+    // invia modifica recensione
     const handleEditClick = () => {
+        // Ottieni la recensione corrente in base all'indice corrente (currentIndex)
         const currentReview = reviews[currentIndex];
+
+        // Imposta i dati di modifica con i valori della recensione corrente
         setEditFormData({
             experience: currentReview.experience,
             review: currentReview.review,
         });
+
+        // Imposta lo stato di "editing" su true, indicando che stai effettuando una modifica
         setEditing(true);
+
+        // Mostra la modalità di modifica della recensione, se applicabile
         showEditReview();
     }
 
@@ -201,27 +261,40 @@ const ReviewUs = () => {
         setIdReviewDelete(userEmail)
     }
 
+    // funzione per confermare l'eliminazione di una recensione da parte dell'utente
     const handleDeleteConfirm = async () => {
         try {
+            // Verifica se l'utente è autenticato (ha un'email)
             if (user.email) {
+                // Ottiene un riferimento alla collezione 'reviews' nel database Firestore
                 const reviewsCollectionRef = collection(db, 'reviews');
+
+                // Crea una query per trovare tutte le recensioni dell'utente attuale
                 const q = query(reviewsCollectionRef, where('email', '==', user.email));
+
+                // Esegue la query per ottenere un elenco di recensioni dell'utente
                 const querySnapshot = await getDocs(q);
 
+                // Variabile per tenere traccia se sono state trovate recensioni dell'utente
                 let foundReviews = false;
+
+                // Itera attraverso le recensioni trovate e le elimina dal database
                 querySnapshot.forEach(async (doc) => {
                     await deleteDoc(doc.ref);
                     foundReviews = true;
                 });
 
+                // Aggiorna la lista delle recensioni localmente rimuovendo quelle dell'utente
                 setReviews(prevReviews => {
                     const updatedReviews = prevReviews.filter(review => review.email !== user.email);
 
+                    // Se tutte le recensioni dell'utente sono state rimosse, reimposta currentIndex a 0
                     if (updatedReviews.length === 0) {
                         setCurrentIndex(0);
                         return updatedReviews;
                     }
 
+                    // Calcola un nuovo indice corrente in modo che rimanga all'interno dei limiti delle recensioni rimaste
                     let newIndex;
                     if (currentIndex >= updatedReviews.length) {
                         newIndex = Math.floor(Math.random() * updatedReviews.length);
@@ -229,72 +302,119 @@ const ReviewUs = () => {
                         newIndex = currentIndex;
                     }
 
+                    // Imposta currentIndex sul nuovo indice calcolato
                     setCurrentIndex(newIndex);
                     return updatedReviews;
                 });
             }
 
+            // Imposta lo stato "hasUserReviewed" su false per indicare che l'utente ha eliminato la sua recensione
             setHasUserReviewed(false);
-            openNotificationWithIcon('success', 'Removal Completed', 'The review has been successfully deleted', 'topRight');
 
+            // Mostra una notifica di successo dopo l'eliminazione delle recensioni
+            openNotificationWithIcon('success', 'Removal Completed', 'The review has been successfully deleted', 'topRight');
         } catch (error) {
+            // Mostra una notifica di errore se si verifica un problema durante l'eliminazione delle recensioni
             openNotificationWithIcon('error', 'Error Deleting', 'There was an issue deleting the review. Please try again', 'top');
         }
+
+        // Chiude il modal, se presente
         setModalVisible1(false);
     }
 
+
     //CACHE
 
+    // funzione per ottenere le recensioni dal database Firestore e memorizzarle nella cache 
     const fetchAndCacheReviews = async () => {
         try {
+            // Ottieni un riferimento alla collezione 'reviews' nel database Firestore
             const reviewsCollectionRef = collection(db, 'reviews');
+
+            // Esegui una query per ottenere tutte le recensioni nella collezione
             const querySnapshot = await getDocs(reviewsCollectionRef);
+
+            // Crea un array per memorizzare i dati delle recensioni
             const reviewsData = [];
+
+            // Itera attraverso i documenti ottenuti dalla query e aggiungi i loro dati all'array
             querySnapshot.forEach((doc) => {
                 reviewsData.push(doc.data());
             });
+
+            // Imposta lo stato 'reviews' con i dati delle recensioni ottenuti
             setReviews(reviewsData);
+
+            // Se il browser supporta il sistema di caching, memorizza le recensioni nella cache
             if ('caches' in window) {
                 const cache = await caches.open('cache');
                 cache.put('/review', new Response(JSON.stringify(reviewsData)));
             }
         } catch (error) {
+            // Gestisce eventuali errori e li registra nella console
             console.error("Errore nel caricamento delle recensioni: ", error);
         }
     }
 
+    // funzione per gestire i cambiamenti nella connessione di rete dell'utente
     const handleConnectionChange = () => {
+        // Determina se l'utente è online o offline utilizzando `navigator.onLine`
         const condition = navigator.onLine ? 'online' : 'offline';
+
+        // Imposta lo stato `isOffline` in base alla condizione (true se è offline, altrimenti false)
         setIsOffline(condition === 'offline');
+
+        // Verifica se l'utente è offline e, in tal caso, carica le recensioni dalla cache
         if (condition === 'offline') {
             loadReviewsFromCache();
         } else {
+            // Se l'utente è online, richiama la funzione per caricare e memorizzare nella cache le recensioni
             fetchAndCacheReviews();
         }
     }
 
+    // funzione per caricare le recensioni memorizzare nella cache 
     const loadReviewsFromCache = async () => {
+        // Apre la cache denominata 'cache'
         const cache = await caches.open('cache');
+
+        // Cerca una risposta memorizzata nella cache con la chiave '/review'
         const cachedResponse = await cache.match('/review');
+
+        // Verifica se è stata trovata una risposta memorizzata nella cache
         if (cachedResponse) {
+            // Se è stata trovata una risposta nella cache, estrai i dati delle recensioni dalla risposta come JSON
             const reviews = await cachedResponse.json();
+
+            // Imposta lo stato 'reviews' con i dati delle recensioni dalla cache
             setReviews(reviews);
+
+            // Imposta lo stato 'cacheLoaded' su true per indicare che le recensioni sono state caricate dalla cache
             setCacheLoaded(true);
         } else {
+            // Se non è stata trovata una risposta nella cache, imposta lo stato 'cacheLoaded' su false
             setCacheLoaded(false);
         }
     }
 
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------//
+
     useEffect(() => {
+        // Aggiunge due event listeners per gestire gli eventi di cambio di stato della connessione
         window.addEventListener("online", handleConnectionChange);
         window.addEventListener("offline", handleConnectionChange);
 
+        // Verifica lo stato della connessione iniziale
         if (navigator.onLine) {
+            // Se l'utente è online, chiama la funzione per caricare e memorizzare nella cache le recensioni
             fetchAndCacheReviews();
         } else {
+            // Se l'utente è offline, chiama la funzione per caricare le recensioni dalla cache
             loadReviewsFromCache();
         }
 
+        // Rimuove gli event listeners quando il componente viene smontato o il valore dell'array delle dipendenze cambia
         return () => {
             window.removeEventListener("online", handleConnectionChange);
             window.removeEventListener("offline", handleConnectionChange);
@@ -303,7 +423,7 @@ const ReviewUs = () => {
 
 
 
-
+    // Verifica se l'utente ha inviato una recensione e imposta lo stato 'hasUserReviewed' in base alla presenza di recensioni dell'utente.
     useEffect(() => {
         const checkUserReview = async () => {
             if (user) {
@@ -316,6 +436,8 @@ const ReviewUs = () => {
         checkUserReview()
     }, [user])
 
+
+    // Recupera i dati dell'utente dal database e imposta vari stati come il nome, l'URL dell'immagine e l'email.
     useEffect(() => {
         const fetchUserData = async () => {
             if (user) {
@@ -334,6 +456,7 @@ const ReviewUs = () => {
         fetchUserData();
     }, [user])
 
+    // Aggiorna il campo "name" del form con il nome dell'utente.
     useEffect(() => {
         if (userName !== "") {
             setFormData(prevState => ({
@@ -343,6 +466,7 @@ const ReviewUs = () => {
         }
     }, [userName])
 
+    // Recupera tutte le recensioni dal database Firestore e imposta lo stato 'reviews' con i dati delle recensioni.
     useEffect(() => {
         const fetchReviews = async () => {
             const reviewsCollectionRef = collection(db, 'reviews')
@@ -357,6 +481,7 @@ const ReviewUs = () => {
         fetchReviews()
     }, [])
 
+    // Inizializza i dati di modifica del form in base alla recensione corrente.
     useEffect(() => {
         if (reviews[currentIndex]) {
             const currentReview = reviews[currentIndex];
@@ -366,6 +491,7 @@ const ReviewUs = () => {
             });
         }
     }, [currentIndex, reviews])
+
 
 
 

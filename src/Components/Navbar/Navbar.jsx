@@ -251,7 +251,7 @@ const Navbar = () => {
     setActive('navBar')
   }
 
-  // Funzione per creare una notifica in antd
+  // funzione per mostrare le notifiche all'utente
   const openNotificationWithIcon = (type, message, description, placement) => {
     notification[type]({
       message,
