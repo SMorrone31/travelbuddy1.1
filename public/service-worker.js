@@ -1,8 +1,8 @@
-
+// Importa le librerie Firebase necessarie per la gestione delle notifiche push.
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
 
-
+// Inizializza Firebase con la configurazione specificata.
 firebase.initializeApp({
     apiKey: "AIzaSyCet1Qe1GkNT3RN9HsbLC4QgWPVUF4BGNQ",
     authDomain: "travelbuddy-398213.firebaseapp.com",
@@ -13,21 +13,23 @@ firebase.initializeApp({
     measurementId: "G-G9BRCRBKG3"
 });
 
+// Ottiene il servizio di messaggistica Firebase.
 const messaging = firebase.messaging();
 
+// Gestisce i messaggi in background quando arriva una notifica push.
 messaging.onBackgroundMessage((payload) => {
     console.log('[service-worker.js] Received background message ', payload);
 
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
         body: payload.notification.body,
-        icon: '/firebase-logo.png'
+        icon: '/logoTravelBuddy48.png'
     };
 
-    self.registration.showNotification(notificationTitle,
-        notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
+// Definisce il nome della cache e gli asset da memorizzare in essa.
 const CACHE_NAME = 'cache-v4';
 const assetsToCache = [
     "/service-worker.js",
@@ -68,9 +70,7 @@ const assetsToCache = [
     "/static/media/video10.3d36a3c0b311aeb47140.mp4"
 ];
 
-
-
-
+// Gestisce l'evento di installazione del service worker.
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -83,6 +83,7 @@ self.addEventListener('install', event => {
     self.skipWaiting();
 });
 
+// Gestisce le richieste di fetch, cercando prima nella cache e quindi facendo una richiesta di rete.
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request).then(cachedResponse => {
@@ -90,9 +91,9 @@ self.addEventListener('fetch', event => {
                 return cachedResponse;
             }
             return fetch(event.request).then(response => {
-                // Controlla se la risposta è un file JS o CSS nella cartella /static/
+                // Controlla se la risposta è un file JS o CSS nella cartella /static/ e aggiunge la risposta alla cache.
                 if (response.status === 200 && response.type === 'basic' &&
-                    (event.request.url.includes('/static/js/') || event.request.url.includes('/static/css/'))) {
+                    (event.request.url.includes('/static/css/') || event.request.url.includes('/static/js/') || event.request.url.includes('/static/media/') || event.request.url.includes('/')) ) {
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME).then(cache => {
                         cache.put(event.request, responseToCache);
@@ -100,7 +101,7 @@ self.addEventListener('fetch', event => {
                 }
                 return response;
             }).catch(() => {
-                // Fallback in caso di mancanza di connessione
+                // Fallback in caso di mancanza di connessione, restituendo una pagina offline.
                 if (event.request.mode === 'navigate' || event.request.destination === 'document') {
                     return caches.match('/offline.html') || caches.match('/index.html');
                 }
@@ -109,8 +110,7 @@ self.addEventListener('fetch', event => {
     );
 });
 
-
-
+// Gestisce l'evento di attivazione del service worker, eliminando le cache obsolete.
 self.addEventListener('activate', event => {
     event.waitUntil(clients.claim());
     event.waitUntil(
@@ -127,7 +127,7 @@ self.addEventListener('activate', event => {
     );
 });
 
-
+// Gestisce l'evento di push, mostrando una notifica quando arriva una notifica push.
 self.addEventListener('push', function (event) {
     const options = {
         body: event.data.text(),
@@ -139,15 +139,15 @@ self.addEventListener('push', function (event) {
     );
 });
 
+// Gestisce l'evento di click su una notifica, aprendo una finestra.
 self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.openWindow('https://www.google.com')
-  );
+    event.notification.close();
+    event.waitUntil(
+        clients.openWindow('https://www.google.com')
+    );
 });
 
-
-
+// Gestisce il fetch delle richieste, cercando prima nella cache e quindi facendo una richiesta di rete.
 async function handleFetch(request) {
     const response = await caches.match(request);
     return response || fetch(request).then(async fetchResponse => {
@@ -156,4 +156,3 @@ async function handleFetch(request) {
         return fetchResponse;
     });
 }
-

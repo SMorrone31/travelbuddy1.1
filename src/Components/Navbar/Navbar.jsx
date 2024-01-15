@@ -50,6 +50,7 @@ const Navbar = () => {
   const [editedName, setEditedName] = useState('')
   const [editedSurname, setEditedSurname] = useState('')
   const [hasFavorite, setHasFavorite] = useState(false)
+
   const { Panel } = Collapse
   // Estrai l'utente dal contesto di autenticazione
   const auth = getAuth()
@@ -166,6 +167,10 @@ const Navbar = () => {
 
   // Funzione per la gestione del logout dell'utente
   const handleLogout = async () => {
+    if (!isOnline()) {
+      openNotificationWithIcon('error', 'No Internet Connection', 'Cannot logout without an internet connection.', 'top');
+      return;
+    }
     try {
       // Reindirizza l'utente alla homepage
       window.location.href = '/';
@@ -274,6 +279,10 @@ const Navbar = () => {
 
   // funzione che mnodifica il nome dell'utente nel database
   const handleUpdateName = async (userId, newName) => {
+    if (!isOnline()) {
+      openNotificationWithIcon('error', 'No Internet Connection', 'Cannot update name without an internet connection.', 'top');
+      return;
+    }
     try {
       // Ottiene il riferimento al documento dell'utente nel database.
       const userDocRef = doc(db, "users", userId)
@@ -298,6 +307,10 @@ const Navbar = () => {
 
   // funzione che modifica il cognome dell'utente nel database
   const handleUpdateSurname = async (userId, newSurname) => {
+    if (!isOnline()) {
+      openNotificationWithIcon('error', 'No Internet Connection', 'Cannot update name without an internet connection.', 'top');
+      return;
+    }
     try {
       // Ottiene il riferimento al documento dell'utente nel database.
       const userDocRef = doc(db, "users", userId)
@@ -356,6 +369,7 @@ const Navbar = () => {
                 type="text"
                 value={editedName}
                 onChange={(e) => setEditedName(e.target.value)}
+                disabled={!isOnline()}
               />
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => handleUpdateName(user1.id, editedName)}>Update</Button>
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => setIsEditName(false)}>Cancel</Button>
@@ -376,6 +390,7 @@ const Navbar = () => {
                 type="text"
                 value={editedSurname}
                 onChange={(e) => setEditedSurname(e.target.value)}
+                disabled={!isOnline()}
               />
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => handleUpdateSurname(user1.id, editedSurname)}>Update</Button>
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => setIsEditSurname(false)}>Cancel</Button>
