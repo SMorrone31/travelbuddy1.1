@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { onMessage } from 'firebase/messaging';
 import { getNotificationToken } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db, messaging } from '../../firebase';
+import { db, onMessageListener } from '../../firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import toast, { Toaster } from 'react-hot-toast';
 
 const NotificationManager = () => {
     const auth = getAuth();
     const [notificationPermission, setNotificationPermission] = useState('default');
+    const [notification, setNotification] = useState({ title: "", body: "" })
 
     // Questa funzione richiede il permesso per inviare notifiche desktop.
     const requestNotificationPermission = async () => {
@@ -86,23 +86,6 @@ const NotificationManager = () => {
         }
     };
 
-    // Funzione per ascoltare le notifiche in primo piano.
-    const listenForForegroundNotifications = () => {
-        onMessage(messaging, (payload) => {
-            console.log('Messaggio push ricevuto in primo piano: ', payload);
-            const notificationMessage = `${payload.notification.title}: ${payload.notification.body}`;
-            alert(notificationMessage); // Utilizza alert per mostrare le notifiche.
-        });
-    };
-
-
-    useEffect(() => {
-        const unsubscribe = listenForForegroundNotifications();
-        return () => {
-            unsubscribe(); // Assicura di rimuovere il listener quando il componente viene smontato
-        };
-    }, []);
-
     // Questo useEffect gestisce le notifiche quando un utente effettua l'accesso o il logout.
     useEffect(() => {
         // Crea un listener per l'evento di cambio dello stato di autenticazione.
@@ -120,9 +103,31 @@ const NotificationManager = () => {
         return unsubscribe;
     }, [auth]); // Dipendenza dell'effetto: viene eseguito quando 'auth' cambia.
 
+    useEffect(() => {
+        const unsubscribe = onMessageListener().then(payload => {
+            setNotification({
+                title: payload?.notification?.title,
+                body: payload?.notification?.body
+            })
+
+            toast.success(
+                `${payload?.notification?.title}: ${payload?.notification?.body}`, {
+                duration: 60000,
+                position: "top-right"
+            }
+            )
+        });
+
+        return () => {
+            unsubscribe.catch(err => console.log("failed: ", err));
+        }
+    }, [])
 
 
-    return null;
+    return (<div>
+        <Toaster />
+    </div>)
+
 };
 
 export default NotificationManager;

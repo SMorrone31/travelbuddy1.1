@@ -51,3 +51,9 @@ export const getNotificationToken = async (userEmail) => {
     return null;
   }
 };
+
+export const onMessageListener = () => new Promise(resolve => {
+  onMessage(messaging, payload => {
+    resolve(payload);
+  });
+});

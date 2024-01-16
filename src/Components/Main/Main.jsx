@@ -13,10 +13,8 @@ import { BsFillSuitHeartFill } from "react-icons/bs"
 import { v4 as uuidv4 } from 'uuid'
 import { notification, Modal as AntModal, Button, Skeleton } from 'antd'
 import "../PlaceDetails/placeDetails.css"
-import { messaging } from "../../firebase"
 
 // Imposta l'elemento radice dell'applicazione per il componente Modal
-
 Modal.setAppElement('#root')
 
 const Main = () => {
@@ -168,7 +166,7 @@ const Main = () => {
             closeCard(); // Chiudi il modulo
 
             // Invia notifiche a tutti gli utenti
-            sendNotificationToAllUsers(newCardData); // Chiama la funzione per inviare una notifica di test
+            await sendNotificationToAllUsers(newCardData); // Chiama la funzione per inviare una notifica di test
         } catch (error) {
             openNotificationWithIcon('error', 'Error', 'Ops, An issue occurred while submitting the experience. Please try again', 'top'); // Mostra una notifica di errore se si verifica un problema durante il salvataggio
         }
@@ -204,6 +202,7 @@ const Main = () => {
                             }
                         })
                     });
+                    console.log(token)
 
                     // Controlla se la risposta è stata ricevuta con successo (status 200 OK).
                     if (!response.ok) {

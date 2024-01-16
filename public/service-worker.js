@@ -93,7 +93,7 @@ self.addEventListener('fetch', event => {
             return fetch(event.request).then(response => {
                 // Controlla se la risposta è un file JS o CSS nella cartella /static/ e aggiunge la risposta alla cache.
                 if (response.status === 200 && response.type === 'basic' &&
-                    (event.request.url.includes('/static/css/') || event.request.url.includes('/static/js/') || event.request.url.includes('/static/media/') || event.request.url.includes('/')) ) {
+                    (event.request.url.includes('/static/css/') || event.request.url.includes('/static/js/') || event.request.url.includes('/static/media/') || event.request.url.includes('/'))) {
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME).then(cache => {
                         cache.put(event.request, responseToCache);
@@ -132,12 +132,14 @@ self.addEventListener('push', function (event) {
     const options = {
         body: event.data.text(),
         icon: './logoTravelBuddy48.png',
+        badge:  './logoTravelBuddy48.png'
     };
 
     event.waitUntil(
         self.registration.showNotification('Notifica', options)
     );
 });
+
 
 // Gestisce l'evento di click su una notifica, aprendo una finestra. (ho messo google per un esempio)
 self.addEventListener('notificationclick', (event) => {
@@ -156,3 +158,4 @@ async function handleFetch(request) {
         return fetchResponse;
     });
 }
+

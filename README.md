@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+Ho provato a gestire le notifiche push con FCM, ci sono i dettagli nei codici: 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    1) NotificationManager.jsx: mi gestisce la generazione dei token, importanto la funzione dal file di configurazione firebase.js
+    2) Service-worker.js: gestisco il service-worker per l'evento push (anche per la cache) e i messaggi in background
+    3) firebase.js: c'è la logica dei token
+    4) Main.jsx: qui dovrebbe inviare una richiesta al server FCM per poi l'invio delle notifiche a tutti gli utenti, dato che l'idea è che quando un utente inserisce una nuova 
+        esperienza il sistema notifica tutti gli utenti che quell'utente ha inserito una nuova esperienza.
+    N.B. I token vengono generati correttamente, vengono salvati nel db. Le richieste POST per FCM vanno a buon fine (status 200 ok), e mi prende correttamente i token degli utenti
+        che hanno almeno una volta consentito le notifiche.
 
-## Available Scripts
+    Il problema sta nella visualizzazione. ho avuto questo problema e data la scadenza imminente non ho avuto più tempo per risolverne.
 
-In the project directory, you can run:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+////////////////////////////////////////////////////////////////////////// DESCRIZIONE DEL PROGETTO  ///////////////////////////////////////////////////////////////////////////
+- Titolo: TravelBuddy
+- Descrizione: TravelBuddy è una Web App che aiuta gli appassionati di viaggi a pianificare e condividere le loro avventure in tutto il mondo. La piattaforma consente agli utenti di creare un account, pianificare i loro viaggi, condividere le loro esperienze con gli amici e tenersi aggiornati sulle attrazioni, ristoranti ed hotel grazie alle API di Google Maps. 
+- Caratteristiche:
+    •  Front-end dinamico: uso il framework React per creare un'interfaccia utente intuitiva ereattiva.
+    • Autenticazione degli utenti: Implemento un sistema di autenticazione per consentire agli utenti di registrarsi, effettuare l'accesso e gestire i loro profili. Utilizzo firebase.
+    • Integrazione con API esterne: Collego l'app a un'API esterna che fornisce dati su destinazioni, attrazioni turistiche, ristoranti ed hotel. 
+    • Questi dati possono arricchire le informazioni disponibili per gli utenti durante la pianificazione dei viaggi. Utilizzo nello specifico RapidApi.
+    • Integrazione con Firestore: Utilizzo Firestore per memorizzare i dati degli utenti le esperienze condivise, le recensioni e i preferiti in diverse collezioni. Ciò permette agli utenti di accedere alle loro informazioni da qualsiasi dispositivo. 
+    • Progressive Web App (PWA):
+        • Installabile: Permetto agli utenti di installare l'app sul loro dispositivo, in modo che possa essere accessibile dalla schermata iniziale come un'app nativa.
+        • Utilizzo Offline: Implemento la funzionalità di caching per consentire agli utenti di accedere alle informazioni e ai dati precedenti anche quando sono offline. In pratica se si ha effettuato l’accesso e alcuni dati sono stati caricati in cache allora verrano mostrati quei dati, altrimenti verrà visualizzato un messaggio di errore. Per la mappa di google maps verrà sempre visualizzato un messaggio di errore dato che in cache non si può memorizzare nulla.
+    
+    
+/////////////////////////////////////////////////////////////// QUI HO AVUTO DEI PROBLEMI MENZIONATI SU ////////////////////////////////////////////////////////////////////////////////////
+    • Notifiche:
+        • Notifiche Web: Implemento le notifiche push tramite il servizio Firebase Cloud Messaging per fornire agli utenti aggiornamenti sui loro viaggi, nuove destinazioni popolari. 
+     
