@@ -50,6 +50,7 @@ const Navbar = () => {
   const [editedName, setEditedName] = useState('')
   const [editedSurname, setEditedSurname] = useState('')
   const [hasFavorite, setHasFavorite] = useState(false)
+  const [isOff, setIsOff] = useState(!navigator.onLine)
 
   const { Panel } = Collapse
   // Estrai l'utente dal contesto di autenticazione
@@ -369,7 +370,6 @@ const Navbar = () => {
                 type="text"
                 value={editedName}
                 onChange={(e) => setEditedName(e.target.value)}
-                disabled={!isOnline()}
               />
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => handleUpdateName(user1.id, editedName)}>Update</Button>
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => setIsEditName(false)}>Cancel</Button>
@@ -390,7 +390,6 @@ const Navbar = () => {
                 type="text"
                 value={editedSurname}
                 onChange={(e) => setEditedSurname(e.target.value)}
-                disabled={!isOnline()}
               />
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => handleUpdateSurname(user1.id, editedSurname)}>Update</Button>
               <Button value="small" style={{ width: '100%', fontSize: '10px' }} onClick={() => setIsEditSurname(false)}>Cancel</Button>
@@ -489,6 +488,21 @@ const Navbar = () => {
     checkFavorites();
   }, [user]);
 
+  //  listener per gli eventi online e offline
+  useEffect(() => {
+    const setOnline = () => setIsOff(false);
+    const setOffline = () => setIsOff(true);
+
+    window.addEventListener('online', setOnline);
+    window.addEventListener('offline', setOffline);
+
+    return () => {
+      window.removeEventListener('online', setOnline);
+      window.removeEventListener('offline', setOffline);
+    };
+  }, []);
+
+
   return (
     <section className='navBarSection'>
       <header className='header flex'>
@@ -522,6 +536,7 @@ const Navbar = () => {
                         onClick={handleClick}
                         size="small"
                         sx={{ ml: 2 }}
+                        disabled={isOff} 
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}

@@ -3,61 +3,57 @@ import { onMessage } from 'firebase/messaging';
 import { getNotificationToken } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, messaging } from '../../firebase';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import toast, { Toaster } from 'react-hot-toast';
 
 const NotificationManager = () => {
     const auth = getAuth();
     const [notificationPermission, setNotificationPermission] = useState('default');
 
-    useEffect(() => {
-        requestNotificationPermission();
-        listenForForegroundNotifications();
-    }, []);
-
-    useEffect(() => {
-        const unsubscribe = onMessage(messaging, (payload) => {
-            console.log('Messaggio ricevuto in foreground:', payload);
-            // Mostra la notifica usando react-hot-toast o un'altra libreria
-            toast(`${payload.notification.title}: ${payload.notification.body}`);
-        });
-    
-        return unsubscribe; // Questo assicura la rimozione del listener quando il componente viene smontato
-    }, []);
-    
-
+    // Questa funzione richiede il permesso per inviare notifiche desktop.
     const requestNotificationPermission = async () => {
-        if (!auth.currentUser) {
-            console.error('Utente non autenticato');
-            return;
-        }
-
+        // Verifica se il browser supporta le notifiche desktop.
         if (!('Notification' in window)) {
             console.error('Questo browser non supporta le notifiche desktop');
             return;
         }
 
+        // Richiede il permesso all'utente per inviare notifiche.
         const permission = await Notification.requestPermission();
-        setNotificationPermission(permission);
+        setNotificationPermission(permission); // Aggiorna lo stato del permesso.
 
+        // Se l'utente ha concesso il permesso, ottiene un token per le notifiche push.
         if (permission === 'granted') {
             const token = await getTokenForUser();
             if (!token) {
+                // Se l'utente non ha un token, sottoscrive l'utente alle notifiche push.
                 subscribeUserToPushNotifications();
             }
         }
     };
 
+    // Questa funzione ottiene il token per le notifiche push associato all'utente attualmente connesso.
     const getTokenForUser = async () => {
+        // Ottiene l'email dell'utente attualmente connesso.
         const userEmail = auth.currentUser?.email;
+
         if (userEmail) {
+            // Ottiene il riferimento al documento del token nell'archivio Firestore.
             const tokenDocRef = doc(db, 'tokens', userEmail);
+
+            // Ottiene lo snapshot del documento del token.
             const tokenSnapshot = await getDoc(tokenDocRef);
+
+            // Restituisce il token se esiste, altrimenti restituisce null.
             return tokenSnapshot.exists() ? tokenSnapshot.data().token : null;
         }
+
+        // Restituisce null se l'utente non è connesso o se non ha un'email.
         return null;
     };
 
+
+    // Funzione per sottoscrivere l'utente alle notifiche push e salvare il token nel Firestore.
     const subscribeUserToPushNotifications = async () => {
         if (!auth.currentUser) {
             console.error('Utente non autenticato');
@@ -66,35 +62,17 @@ const NotificationManager = () => {
 
         const userEmail = auth.currentUser.email;
         const currentToken = await getNotificationToken(userEmail);
+
         if (currentToken) {
-            // Costruisci l'URL per sottoscrivere l'utente all'argomento 'allUsers'
-            const subscribeUrl = `https://iid.googleapis.com/iid/v1/${currentToken}/rel/topics/allUsers`;
-
-            // Invia una richiesta POST per sottoscrivere l'utente all'argomento
-            const response = await fetch(subscribeUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer c65tPk6cKrAuHMj9AkxHbt:APA91bH63JpC_hTE0APbr86eJp31DnDHDpALZV1HsBH6fe8zCMTzvsyt76rWKIu8AJ2C9_Qlj98gS64X729pzikicqUa4L9oB95BEdxZjXiWwAxCbETD4lEzxghCJxFFKnR0RJr6sIF3', 
-                },
-            });
-
-            if (response.status === 200) {
-                console.log('Utente iscritto all\'argomento "allUsers"');
-            } else {
-                console.error('Errore durante l\'iscrizione dell\'utente all\'argomento. Stato:', response.status);
-            }
-
-            console.log('Token di notifica push ottenuto:', currentToken);
+            // Token di notifica push trovato, quindi lo salviamo nel Firestore.
             await saveTokenToFirestore(currentToken);
+            console.log('Token di notifica push salvato nel Firestore:', currentToken);
         } else {
             console.log('Nessun token di registrazione disponibile.');
         }
     }
 
-
-
-
+    // Funzione per salvare il token nel Firestore.
     const saveTokenToFirestore = async (token) => {
         const userEmail = auth.currentUser?.email;
         if (userEmail) {
@@ -108,14 +86,43 @@ const NotificationManager = () => {
         }
     };
 
+    // Funzione per ascoltare le notifiche in primo piano.
     const listenForForegroundNotifications = () => {
         onMessage(messaging, (payload) => {
             console.log('Messaggio push ricevuto in primo piano: ', payload);
-            toast(payload.notification.title + ': ' + payload.notification.body);
+            const notificationMessage = `${payload.notification.title}: ${payload.notification.body}`;
+            alert(notificationMessage); // Utilizza alert per mostrare le notifiche.
         });
     };
 
-    return <Toaster />;
+
+    useEffect(() => {
+        const unsubscribe = listenForForegroundNotifications();
+        return () => {
+            unsubscribe(); // Assicura di rimuovere il listener quando il componente viene smontato
+        };
+    }, []);
+
+    // Questo useEffect gestisce le notifiche quando un utente effettua l'accesso o il logout.
+    useEffect(() => {
+        // Crea un listener per l'evento di cambio dello stato di autenticazione.
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Se l'utente è autenticato, richiedi il permesso per le notifiche.
+                await requestNotificationPermission();
+            } else {
+                // Se l'utente effettua il logout, ripristina il consenso per le notifiche.
+                setNotificationPermission('default');
+            }
+        });
+
+        // Assicura la rimozione del listener quando il componente viene smontato.
+        return unsubscribe;
+    }, [auth]); // Dipendenza dell'effetto: viene eseguito quando 'auth' cambia.
+
+
+
+    return null;
 };
 
 export default NotificationManager;

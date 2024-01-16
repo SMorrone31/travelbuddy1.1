@@ -174,22 +174,22 @@ const Main = () => {
         }
     };
 
-    // Funzione per inviare notifiche push a tutti gli utenti
-
+    // Questa funzione invia notifiche push a tutti gli utenti.
     const sendNotificationToAllUsers = async (newExperience) => {
         try {
-            // Riferimento alla collezione "tokens" nel database Firebase
+            // Ottiene un riferimento alla collezione 'tokens' nel database Firestore.
             const tokensCollectionRef = collection(db, 'tokens');
-    
-            // Ottieni uno snapshot della collezione "tokens"
+
+            // Recupera tutti i documenti nella collezione 'tokens' come snapshot.
             const tokensSnapshot = await getDocs(tokensCollectionRef);
-    
-            // Estrai i token dai documenti nello snapshot
+
+            // Estrae gli ID dei token da ciascun documento.
             const tokens = tokensSnapshot.docs.map(doc => doc.data().token);
-    
-            // Invia una notifica push a ogni token
-            for (const token of tokens) {
+
+            // Crea un array di promesse per l'invio delle notifiche push a ciascun token.
+            const promises = tokens.map(async (token) => {
                 try {
+                    // Effettua una richiesta HTTP POST al servizio di notifica Firebase Cloud Messaging.
                     const response = await fetch('https://fcm.googleapis.com/fcm/send', {
                         method: 'POST',
                         headers: {
@@ -197,30 +197,38 @@ const Main = () => {
                             'Authorization': 'key=AAAAwi7xEpA:APA91bHI1l99R4wA-HfiyjffJQD9JpgU6tS6AGNvEtSGmEVsPnp5Q7FyeATvYREVjCvpC7-DW9wyo-fgmERYcPbu42_VDfJImVxR0EQyoi6Rn4qe4lTqYuZI_Q0gPXOqnULGS-7pW4T7'
                         },
                         body: JSON.stringify({
-                            to: token, // Il token FCM specifico per questa iterazione
+                            to: token,
                             notification: {
                                 title: 'Nuova Esperienza di Viaggio!',
                                 body: `${newExperience.name} ha aggiunto una nuova esperienza: ${newExperience.place}`,
                             }
                         })
                     });
-    
+
+                    // Controlla se la risposta è stata ricevuta con successo (status 200 OK).
                     if (!response.ok) {
-                        throw new Error(`Errore nell'invio della notifica al token ${token}`);
+                        // Se la risposta non è OK, estrai il testo dell'errore dalla risposta.
+                        const errorData = await response.text();
+                        console.log(errorData);
+
+                        // Lancia un'eccezione con un messaggio di errore dettagliato.
+                        throw new Error(`Errore nell'invio della notifica al token ${token}. Risposta: ${errorData}`);
                     }
                 } catch (error) {
-                    console.error("Errore nell'invio della notifica:", error);
+                    console.error("Errore nell'invio della notifica a un token:", error);
                 }
-            }
-    
+            });
+
+            // Attendiamo che tutte le promesse di invio delle notifiche siano risolte.
+            await Promise.all(promises);
+
+            // Logga un messaggio di successo dopo aver inviato tutte le notifiche.
             console.log("Notifiche inviate a tutti gli utenti.");
         } catch (error) {
+            // Gestisce gli errori durante l'intero processo di invio delle notifiche.
             console.error("Errore durante il recupero dei token:", error);
         }
     };
-    
-
-    
 
 
     const handleDelete = (id) => {

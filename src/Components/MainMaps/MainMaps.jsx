@@ -75,6 +75,7 @@ const MainMaps = () => {
         <div className="mainMap">
             {!isOnline && (
                 <div className="offline-message">
+                    <img className="imm" src="./nointernetconnection.webp" />
                     Error, no internet connection. Connect to use Google Maps services.
                 </div>
             )}

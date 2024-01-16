@@ -38,7 +38,7 @@ export const getNotificationToken = async (userEmail) => {
     const currentToken = await getToken(messaging, {
       vapidKey: 'BEn4VtLxYD9n7u8Oop4Qm5KKG_OxmU43PuCk9dcXEipff-a5yPWqMvj-zPKEUfJmcMrBEH_bSl6mUkIrZn8_Jzg',
     });
-     // Verifica se il token è stato ottenuto con successo.
+    // Verifica se il token è stato ottenuto con successo.
     if (currentToken) {
       console.log('Token di notifica push ottenuto:', currentToken);
       return currentToken;

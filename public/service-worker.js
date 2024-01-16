@@ -22,8 +22,8 @@ messaging.onBackgroundMessage((payload) => {
 
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
-        body: payload.notification.body,
-        icon: '/logoTravelBuddy48.png'
+        title: notificationTitle,
+        body: payload.notification.body
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
@@ -139,7 +139,7 @@ self.addEventListener('push', function (event) {
     );
 });
 
-// Gestisce l'evento di click su una notifica, aprendo una finestra.
+// Gestisce l'evento di click su una notifica, aprendo una finestra. (ho messo google per un esempio)
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     event.waitUntil(
