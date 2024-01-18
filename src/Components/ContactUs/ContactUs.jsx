@@ -24,6 +24,8 @@ const ContactUs = () => {
     };
 
     // Invio dell'e-mail utilizzando Email.js
+    // emailjs.send prende come parametri: ID del servizio di email; ID template di email; oggetto che contiene i parametri inseriti; chiave API per autenticazione EmailJS
+    // la fuziona send restituisce una promessa
     emailjs.send('service_6sa8dxt', 'template_e8d9h2e', templateParams, 'T1_HwPs7ffCtybVjQ')
       .then((response) => {
         console.log('Email sent successfully', response.status, response.text);

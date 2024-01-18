@@ -8,7 +8,7 @@ import { AiFillInstagram } from 'react-icons/ai'
 import { FaTripadvisor } from 'react-icons/fa'
 import { FiChevronRight } from 'react-icons/fi'
 
-import Aos, { init } from 'aos'
+import Aos from 'aos'
 import 'aos/dist/aos.css'
 
 

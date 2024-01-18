@@ -79,7 +79,8 @@ self.addEventListener('install', event => {
                 return cache.addAll(assetsToCache);
             })
     );
-
+    
+    // forza il sw a diventare attivo dop l'installazione
     self.skipWaiting();
 });
 
@@ -112,8 +113,10 @@ self.addEventListener('fetch', event => {
 
 // Gestisce l'evento di attivazione del service worker, eliminando le cache obsolete.
 self.addEventListener('activate', event => {
+    // permette al service worker di prendere il controllo immediato delle pagine client aperte.
     event.waitUntil(clients.claim());
     event.waitUntil(
+        // ottiene tutte le chiavi della cache (nomi delle cache diverse) e le restituisce in un array.
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
