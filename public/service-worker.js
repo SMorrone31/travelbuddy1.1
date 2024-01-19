@@ -70,7 +70,7 @@ const assetsToCache = [
     "/static/media/video10.3d36a3c0b311aeb47140.mp4"
 ];
 
-// Gestisce l'evento di installazione del service worker.
+// Gestisce l'evento di installazione del service worker: precaching
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -102,7 +102,7 @@ self.addEventListener('fetch', event => {
                 }
                 return response;
             }).catch(() => {
-                // Fallback in caso di mancanza di connessione, restituendo una pagina offline.
+                // Callback in caso di mancanza di connessione, restituendo una pagina offline.
                 if (event.request.mode === 'navigate' || event.request.destination === 'document') {
                     return caches.match('/offline.html') || caches.match('/index.html');
                 }
